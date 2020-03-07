@@ -9,7 +9,7 @@ int fiboMemo[lim];
 int fiboFunctionCounter = 0;
 
 // fibonaci decorator to check if value is already calculated
-int fetchFibo(int (*func)(int), int arg);
+int fetchFibo(int (*func)(int), int* arg);
 
 // basic fibonaci function
 int fibo(int x);
@@ -42,7 +42,7 @@ int main(){
 	initMemo();
 	int x = 10;
 	do{
-		printf("fibo(%d) = %d\n", x, fetchFibo(fibo, x));
+		printf("fibo(%d) = %d\n", x, fetchFibo(fibo, &x));
 	}while(x--);
 	printf("times fibo called %d", fiboFunctionCounter);
 	return 0;
@@ -55,7 +55,8 @@ int incFuncCtr(int* ctr, int (*func)(int), int* arg){
 }
 
 int fibo(int x){
-	return fetchFibo(fibo, x-2)+fetchFibo(fibo, x-1);
+	int a=x-2,b=x-1;
+	return fetchFibo(fibo, &a)+fetchFibo(fibo, &b);
 }
 
 int checkinMemo(int idx){
@@ -66,11 +67,11 @@ void saveinMemo(int idx, int val){
 	fiboMemo[idx]=val;
 }
 
-int fetchFibo(int (*func)(int), int arg){
-	int res = checkinMemo(arg);
+int fetchFibo(int (*func)(int), int *arg){
+	int res = checkinMemo(*arg);
 	if(res==-1){
-		res = incFuncCtr(&fiboFunctionCounter, func, &arg);
-		saveinMemo(arg, res);
+		res = incFuncCtr(&fiboFunctionCounter, func, arg);
+		saveinMemo(*arg, res);
 	}
 	return res;
 }
