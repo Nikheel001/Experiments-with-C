@@ -20,8 +20,8 @@ int checkinMemo(int idx);
 // store results to array
 void saveinMemo(int idx, int val);
 
-void clearFunctionCount(){
-	fiboFunctionCounter=0;
+void clearFunctionCount(int *arg){
+	*arg=0;
 }
 
 /* a decorator to increase counter number of times function called.
