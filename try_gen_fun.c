@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<string.h>
 
 struct any
 {
@@ -13,23 +12,27 @@ struct node
 	struct node *next;
 };
 
-void try_gen_function(void *ptr,char abc[])
+enum types {
+	Int,Char,Node,Any
+};
+
+void try_gen_function(void *ptr,enum types x)
 {
-	if(strcmp(abc,"char")==0)
-	{
-		printf("%c\n",*(char *)ptr);
-	}
-	else if(strcmp(abc,"int")==0)
-	{
-		printf("%d\n",*(int *)ptr);
-	}
-	else if(strcmp(abc,"struct node")==0)
-	{
-		printf("%d\n",(*(struct node *)ptr).abc);
-	}
-	else if(strcmp(abc,"struct any")==0)
-	{
-		printf("%d\n",(*(struct any *)ptr).id);
+	switch(x){
+		case Char:
+			printf("%c\n",*(char *)ptr);
+			break;
+		case Int:
+			printf("%d\n",*(int *)ptr);
+			break;
+		case Node:
+			printf("%d\n",(*(struct node *)ptr).abc);
+			break;
+		case Any:
+			printf("%d\n",(*(struct any *)ptr).id);	
+			break;
+		default:
+			break;
 	}
 }
 
@@ -53,18 +56,26 @@ void main()
   
 	// trying without function...
   
-	printf("%d\t",var1.id);
-	printf("%d\t",var2.id);
-	printf("%d\n",var2.id);
-	printf("%c\t",*(char *)var1.ptr);
-	printf("%d\n",*(int *)var2.ptr);
-	printf("%d\n",(*(struct node *)var3.ptr).abc);
-	printf("%d\n",*(int *)xyz);
+//	printf("%d\t",var1.id);
+//	printf("%d\t",var2.id);
+//	printf("%d\n",var2.id);
+//	printf("%c\t",*(char *)var1.ptr);
+//	printf("%d\n",*(int *)var2.ptr);
+//	printf("%d\n",(*(struct node *)var3.ptr).abc);
+//	printf("%d\n",*(int *)xyz);
   
 	// IMPORTANT execution below..
-  
-	try_gen_function(&abc,"char");
-	try_gen_function(&b,"int");
-	try_gen_function(&v1,"struct node");
-  try_gen_function(&v1,"struct any");
+	enum types t1;
+	t1=Any;
+	try_gen_function(&v1, t1);
+	
+	t1=Node;
+	try_gen_function(&v1,t1);
+	
+	// Any and Node has some similarity :)
+	
+	t1=Char;
+	try_gen_function(&abc,t1);
+	t1=Int;
+	try_gen_function(&b,t1);
 }
