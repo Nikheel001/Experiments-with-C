@@ -20,40 +20,81 @@ int compare_person(const void *x, const void *y)
 	return nm;
 }
 
-person *init(char *name, int age, person *x)
+//person *init(char *name, int age, person *x)
+//{
+//	x = (person *) malloc(sizeof(person));
+//	x->name = (char *) malloc(strlen(name)*sizeof(char));
+//	x->name = strcpy(x->name, name);
+//	x->age = age;
+//	return x;
+//}
+
+person *init(person *x)
 {
+	char name[30];
+	int age;
+	
 	x = (person *) malloc(sizeof(person));
-	x->name = (char *) malloc(strlen(name)*sizeof(char));
-	x->name = strcpy(x->name, name);
+	x->name = (char *) malloc(30*sizeof(char));
+	
+	gets(x->name);
+//	fgets(x->name, 30, stdin);
+//	scanf("%[^\n]", x->name);
+	printf("%s ", x->name);
+	
+	scanf("%d", &age);
+	printf("%d \n", age);
+	
+	getchar();
+	
+//	x->name = strcpy(x->name, name);
 	x->age = age;
 	return x;
 }
 
+
 int main()
 {
 	person people[5];
-	person target, *idx;
-	target = *init("anil", 23, &target);
+	person target;
+	person *idx;
+	
+	printf("look for\n");
+	
+	target = *init(&target);
 	
 	int len = sizeof(people)/sizeof(person), i;
 	
-	people[3] = *init("nikheel", 23, &people[3]);
-	people[2] = *init("anil", 21, &people[2]);
-	people[4] = *init("sachin", 23, &people[4]);
-	people[0] = *init("abcd", 10, &people[0]);
-	people[1] = *init("abcd", 12, &people[1]);
+	printf("\n\ninput list\n");
 	
-	idx = (person*) bsearch(&target, people, len, sizeof(person), compare_person);
+	people[0] = *init(&people[0]);
+	people[1] = *init(&people[1]);
+	people[2] = *init(&people[2]);
+	people[3] = *init(&people[3]);
+	people[4] = *init(&people[4]);
+	
+	printf("\n\nbefore sorting\n");
 	
 	printf("len = %d\n", len);
 	for(i=0;i<len;i++) {
 		printf("name = %s, age = %d\n", people[i].name, people[i].age);
 	}
 	
+	qsort(people, len, sizeof(person), compare_person);
+	
+	printf("\n\nafter sorting\n");
+	
+	printf("len = %d\n", len);
+	for(i=0;i<len;i++) {
+		printf("name = %s, age = %d\n", people[i].name, people[i].age);
+	}
+	
+	idx = (person*) bsearch(&target, people, len, sizeof(person), compare_person);
+	
 	if(idx!=NULL){
-		printf("FOUND name = %s, age = %d\n", idx->name, idx->age);
+		printf("\n\nFOUND name = %s, age = %d\n", idx->name, idx->age);
 	}else{
-		printf("NOT FOUND");
+		printf("\n\nNOT FOUND");
 	}
 	
 	return 0;
